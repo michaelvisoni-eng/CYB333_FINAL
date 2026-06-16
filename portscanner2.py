@@ -1,5 +1,6 @@
 import socket
 import datetime
+import json
 
 
 def check_port(host, port):
@@ -52,6 +53,23 @@ def save_text_report(target, start_port, end_port, open_ports):
 
     print(f"\nText report saved as {filename}")
 
+def save_json_report(target, start_port, end_port, open_ports):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename = "scan_report.json"
+
+    report_data = {
+        "target": target,
+        "port_range": f"{start_port}-{end_port}",
+        "scan_time": timestamp,
+        "open_ports_found": len(open_ports),
+        "open_ports": open_ports
+    }
+
+    with open(filename, "w") as report:
+        json.dump(report_data, report, indent=4)
+
+    print(f"JSON report saved as {filename}")
+
 def run_scan(target, start_port, end_port):
     print(f"\nScanning {target}...")
     print("-" * 30)
@@ -78,7 +96,7 @@ def run_scan(target, start_port, end_port):
         print("No open ports found.")
 
     save_text_report(target, start_port, end_port, open_ports)
-
+    save_json_report(target, start_port, end_port, open_ports)
 
 def main():
     print("Simple Port Scanner")
