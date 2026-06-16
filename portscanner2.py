@@ -96,10 +96,10 @@ def run_scan(target, start_port, end_port):
         if check_port(target, port):
             service = get_service(port)
 
+            banner = get_banner(target, port)
+
             print(f"Port {port} is OPEN ({service})")
             print(f"Banner: {banner}")
-
-            banner = get_banner(target, port)
 
             open_ports.append({
                 "port": port,
