@@ -36,14 +36,14 @@ def run_scan(target, start_port, end_port):
 
     for port in range(start_port, end_port + 1):
         if check_port(target, port):
-           service = get_service(port)
+            service = get_service(port)
 
-    print(f"Port {port} is OPEN ({service})")
+            print(f"Port {port} is OPEN ({service})")
 
-    open_ports.append({
-        "port": port,
-        "service": service
-    })
+            open_ports.append({
+            "port": port,
+            "service": service
+            })
 
     print("-" * 30)
 
