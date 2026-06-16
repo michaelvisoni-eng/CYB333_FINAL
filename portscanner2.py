@@ -1,4 +1,5 @@
 import socket
+import datetime
 
 
 def check_port(host, port):
@@ -28,6 +29,29 @@ def get_service(port):
     except OSError:
         return "Unknown"
     
+def save_text_report(target, start_port, end_port, open_ports):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    filename = "scan_report.txt"
+
+    with open(filename, "w") as report:
+        report.write("Simple Port Scanner Report\n")
+        report.write("=" * 30 + "\n")
+        report.write(f"Target: {target}\n")
+        report.write(f"Port Range: {start_port}-{end_port}\n")
+        report.write(f"Scan Time: {timestamp}\n")
+        report.write(f"Open Ports Found: {len(open_ports)}\n")
+        report.write("=" * 30 + "\n\n")
+
+        if open_ports:
+            report.write("Open Ports:\n")
+
+            for item in open_ports:
+                report.write(f"Port {item['port']}: {item['service']}\n")
+        else:
+            report.write("No open ports were found.\n")
+
+    print(f"\nText report saved as {filename}")
+
 def run_scan(target, start_port, end_port):
     print(f"\nScanning {target}...")
     print("-" * 30)
@@ -52,6 +76,8 @@ def run_scan(target, start_port, end_port):
         print(open_ports)
     else:
         print("No open ports found.")
+
+    save_text_report(target, start_port, end_port, open_ports)
 
 
 def main():
