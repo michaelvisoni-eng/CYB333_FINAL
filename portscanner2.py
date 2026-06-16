@@ -30,6 +30,22 @@ def get_service(port):
     except OSError:
         return "Unknown"
     
+def get_banner(host, port):
+    try:
+        scanner = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        scanner.settimeout(2)
+
+        scanner.connect((host, port))
+
+        banner = scanner.recv(1024).decode(errors="ignore").strip()
+
+        scanner.close()
+
+        return banner if banner else "No banner returned"
+
+    except Exception:
+        return "Banner unavailable"
+
 def save_text_report(target, start_port, end_port, open_ports):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filename = "scan_report.txt"
@@ -81,10 +97,14 @@ def run_scan(target, start_port, end_port):
             service = get_service(port)
 
             print(f"Port {port} is OPEN ({service})")
+            print(f"Banner: {banner}")
+
+            banner = get_banner(target, port)
 
             open_ports.append({
-            "port": port,
-            "service": service
+                "port": port,
+                "service": service,
+                "banner": banner
             })
 
     print("-" * 30)
