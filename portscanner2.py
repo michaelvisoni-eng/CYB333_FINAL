@@ -1,8 +1,5 @@
 import socket
 
-TARGET = "127.0.0.1"
-START_PORT = 20
-END_PORT = 100
 
 def check_port(host, port):
     try:
@@ -19,23 +16,21 @@ def check_port(host, port):
         scanner.close()
 
         # Port is open if connect_ex returns 0
-        if result == 0:
-            return True
-        else:
-            return False
+        return result == 0
 
     except Exception as error:
         print(f"Error scanning port {port}: {error}")
         return False
 
-def run_scan():
-    print(f"Scanning {TARGET}...")
+
+def run_scan(target, start_port, end_port):
+    print(f"\nScanning {target}...")
     print("-" * 30)
 
     open_ports = []
 
-    for port in range(START_PORT, END_PORT + 1):
-        if check_port(TARGET, port):
+    for port in range(start_port, end_port + 1):
+        if check_port(target, port):
             print(f"Port {port} is OPEN")
             open_ports.append(port)
 
@@ -47,5 +42,18 @@ def run_scan():
     else:
         print("No open ports found.")
 
+
+def main():
+    print("Simple Port Scanner")
+    print("Only scan systems you own or have permission to test.\n")
+
+    target = input("Enter target IP address or hostname: ")
+
+    start_port = int(input("Enter starting port: "))
+    end_port = int(input("Enter ending port: "))
+
+    run_scan(target, start_port, end_port)
+
+
 if __name__ == "__main__":
-    run_scan()
+    main()
