@@ -22,7 +22,12 @@ def check_port(host, port):
         print(f"Error scanning port {port}: {error}")
         return False
 
-
+def get_service(port):
+    try:
+        return socket.getservbyport(port)
+    except OSError:
+        return "Unknown"
+    
 def run_scan(target, start_port, end_port):
     print(f"\nScanning {target}...")
     print("-" * 30)
@@ -31,8 +36,14 @@ def run_scan(target, start_port, end_port):
 
     for port in range(start_port, end_port + 1):
         if check_port(target, port):
-            print(f"Port {port} is OPEN")
-            open_ports.append(port)
+           service = get_service(port)
+
+    print(f"Port {port} is OPEN ({service})")
+
+    open_ports.append({
+        "port": port,
+        "service": service
+    })
 
     print("-" * 30)
 
