@@ -1,6 +1,7 @@
 import socket
 import datetime
 import json
+import threading
 
 
 def check_port(host, port):
@@ -86,26 +87,41 @@ def save_json_report(target, start_port, end_port, open_ports):
 
     print(f"JSON report saved as {filename}")
 
+def scan_port(target, port, open_ports):
+    if check_port(target, port):
+        service = get_service(port)
+
+        banner = get_banner(target, port)
+
+        print(f"Port {port} is OPEN ({service})")
+        print(f"Banner: {banner}")
+
+        open_ports.append({
+            "port": port,
+            "service": service,
+            "banner": banner
+        })
+
 def run_scan(target, start_port, end_port):
     print(f"\nScanning {target}...")
     print("-" * 30)
 
     open_ports = []
 
+    threads = []
+
     for port in range(start_port, end_port + 1):
-        if check_port(target, port):
-            service = get_service(port)
+        thread = threading.Thread(
+            target=scan_port,
+            args=(target, port, open_ports)
+        )
 
-            banner = get_banner(target, port)
+        threads.append(thread)
 
-            print(f"Port {port} is OPEN ({service})")
-            print(f"Banner: {banner}")
+        thread.start()
 
-            open_ports.append({
-                "port": port,
-                "service": service,
-                "banner": banner
-            })
+    for thread in threads:
+        thread.join()
 
     print("-" * 30)
 
