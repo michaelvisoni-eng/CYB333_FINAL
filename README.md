@@ -19,8 +19,8 @@ This project is a Python-based port scanner developed for CYB333 Security Automa
 - git clone https://github.com/michaelvisoni-eng/CYB333_FINAL.git
 
 ## Usage
-Run the script:
+- Run the script:
 
-python3 portscanner2.py
-Enter the target IP address and port range when prompted. 
-Scan results will be automatically be saved to directory as a .txt and .json file.
+- python3 portscanner2.py
+- Enter the target IP address and port range when prompted. 
+- Scan results will be automatically be saved to directory as a .txt and .json file.
