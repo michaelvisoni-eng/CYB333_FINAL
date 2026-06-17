@@ -14,9 +14,9 @@ This project is a Python-based port scanner developed for CYB333 Security Automa
 - Python 3.x
 
 ## Download
-sudo apt update
-sudo apt install git
-git clone https://github.com/michaelvisoni-eng/CYB333_FINAL.git
+- sudo apt update
+- sudo apt install git
+- git clone https://github.com/michaelvisoni-eng/CYB333_FINAL.git
 
 ## Usage
 Run the script:
